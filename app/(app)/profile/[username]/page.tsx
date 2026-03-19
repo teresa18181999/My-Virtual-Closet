@@ -4,7 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useParams } from "next/navigation"
-import { User, Grid3X3 } from "lucide-react"
+import { User, Grid3X3, Users } from "lucide-react"
 import { otherUsers, currentUser } from "@/lib/mock-data"
 
 export default function UserProfilePage() {
@@ -77,16 +77,19 @@ function UserProfileContent({ user }: { user: typeof otherUsers[keyof typeof oth
           </button>
         </div>
 
-        {/* Stats */}
-        <div className="mt-6 grid grid-cols-2 gap-4">
-          <div className="flex flex-col items-center gap-2 rounded-lg bg-secondary/50 px-3 py-4">
-            <span className="text-lg font-bold text-foreground">{user.posts}</span>
-            <span className="text-xs font-medium text-foreground">Publicaciones</span>
+        {/* Stats - Recuadros rosa con icono */}
+        <div className="mt-6 grid grid-cols-2 gap-3">
+          <div className="flex flex-col items-center gap-1.5 rounded-xl bg-accent px-3 py-4">
+            <Grid3X3 className="h-6 w-6 text-primary" strokeWidth={1.5} />
+            <span className="text-[10px] font-medium text-primary">Publicaciones</span>
           </div>
-          <div className="flex flex-col items-center gap-2 rounded-lg bg-secondary/50 px-3 py-4">
-            <span className="text-lg font-bold text-foreground">{user.followers}</span>
-            <span className="text-xs font-medium text-foreground">Seguidores</span>
-          </div>
+          <Link 
+            href={`/profile/${user.username}/followers`}
+            className="flex flex-col items-center gap-1.5 rounded-xl bg-accent px-3 py-4 transition-colors hover:bg-secondary"
+          >
+            <Users className="h-6 w-6 text-primary" strokeWidth={1.5} />
+            <span className="text-[10px] font-medium text-primary">Seguidores</span>
+          </Link>
         </div>
       </div>
 

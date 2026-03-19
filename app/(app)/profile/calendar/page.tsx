@@ -42,6 +42,9 @@ export default function CalendarPage() {
         <h1 className="font-serif text-2xl font-bold italic text-primary">OOTD Calendario</h1>
       </header>
 
+      {/* Separator line */}
+      <div className="mx-4 border-b border-border/60" />
+
       {/* Month navigation */}
       <div className="flex items-center justify-center gap-4 px-4 py-3 bg-background">
         <button onClick={goToPrevMonth} aria-label="Mes anterior" className="p-1">

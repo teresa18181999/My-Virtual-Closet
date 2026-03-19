@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation"
 import Image from "next/image"
+import Link from "next/link"
 import { Bell, ChevronRight } from "lucide-react"
 import { notifications } from "@/lib/mock-data"
 
@@ -52,10 +53,10 @@ export default function NotificationsPage() {
 
       <div className="px-4 py-4">
         {/* Follow requests */}
-        <button className="flex w-full items-center gap-3 py-3">
+        <Link href="/profile/requests" className="flex w-full items-center gap-3 py-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary">
             <Image
-              src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100&h=100&fit=crop&crop=face"
+              src="/images/default-avatar.png"
               alt={notifications.followRequests.username}
               width={40}
               height={40}
@@ -69,7 +70,7 @@ export default function NotificationsPage() {
             </p>
           </div>
           <ChevronRight className="h-5 w-5 text-muted-foreground" />
-        </button>
+        </Link>
 
         {/* Today */}
         <h2 className="mt-4 mb-2 font-serif text-base italic text-foreground">Hoy</h2>

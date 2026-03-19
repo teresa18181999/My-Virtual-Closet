@@ -107,12 +107,13 @@ export default function LabPage() {
   return (
     <div className="flex h-full flex-col bg-background">
       {/* Header - FlaskConical + Laboratorio - fondo blanco */}
-      <header className="flex items-center justify-center gap-2 bg-background px-4 py-3">
-        <FlaskConical className="h-5 w-5 text-primary" strokeWidth={1.5} />
-        <h1 className="font-serif text-xl font-bold italic text-primary">Laboratorio</h1>
+      <header className="flex items-center gap-3 bg-background px-4 py-4">
+        <FlaskConical className="h-7 w-7 text-foreground" strokeWidth={1.5} />
+        <h1 className="font-serif text-2xl font-bold italic text-primary">Laboratorio</h1>
       </header>
 
-      <div className="border-b border-border" />
+      {/* Separator line */}
+      <div className="mx-4 border-b border-border/60" />
 
       {/* Botón Toggle central - burdeos sólido con icono blanco */}
       <div className="flex justify-center pt-2">

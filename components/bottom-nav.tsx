@@ -35,6 +35,9 @@ const navItems = [
   { href: "/profile", label: "Perfil", type: "icon" as const, icon: UserRound },
 ]
 
+// Rutas que son del perfil propio (no de otros usuarios)
+const ownProfileRoutes = ["/profile", "/profile/settings", "/profile/calendar", "/profile/notifications", "/profile/followers", "/profile/requests"]
+
 export function BottomNav() {
   const pathname = usePathname()
 
@@ -44,7 +47,10 @@ export function BottomNav() {
       <div className="h-px w-full bg-border" />
       <div className="flex w-full items-center justify-around py-3">
         {navItems.map((item) => {
-          const isActive = pathname === item.href || pathname.startsWith(item.href + "/")
+          // Para el perfil, solo activar si es una ruta del perfil propio
+          const isActive = item.href === "/profile"
+            ? ownProfileRoutes.includes(pathname)
+            : pathname === item.href || pathname.startsWith(item.href + "/")
 
           if (item.type === "center") {
             return (

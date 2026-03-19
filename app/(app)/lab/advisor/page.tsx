@@ -7,24 +7,22 @@ interface Message {
   id: string
   role: "user" | "assistant"
   content: string
+  items?: string[]
 }
 
+// Solo un mensaje de bienvenida inicial
 const initialMessages: Message[] = [
   {
-    id: "1",
-    role: "user",
-    content: "Necesito ayuda con un outfit",
-  },
-  {
-    id: "2",
+    id: "0",
     role: "assistant",
-    content: "Mirando tu armario, te recomiendo combinar el top negro con el pantalón oscuro. Es una combinación clásica y elegante que funciona perfectamente para una cena. Puedes complementarlo con los tacones que tienes guardados.",
+    content: "¡Hola! Soy tu asesor personal. ¿Para qué ocasión necesitas un outfit hoy? (Prueba diciendo: cita, fiesta o trabajo)",
   },
 ]
 
 export default function AdvisorPage() {
   const [messages, setMessages] = useState<Message[]>(initialMessages)
   const [input, setInput] = useState("")
+  const [isTyping, setIsTyping] = useState(false) // Para que parezca que piensa
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -32,35 +30,58 @@ export default function AdvisorPage() {
   }, [messages])
 
   function handleSend() {
-    if (!input.trim()) return
+    const text = input.trim();
+    if (!text) return
 
+    // 1. Añadimos el mensaje del usuario al chat
     const userMessage: Message = {
       id: Date.now().toString(),
       role: "user",
-      content: input.trim(),
+      content: text,
     }
+   
     setMessages((prev) => [...prev, userMessage])
     setInput("")
+    setIsTyping(true)
 
+    // 2. Lógica de respuesta inteligente
     setTimeout(() => {
+      const query = text.toLowerCase()
+      let response = ""
+
+      if (query.includes("cita")) {
+        response = "Mirando tu armario, te recomiendo combinar el vestido negro corto con unos tacones altos negros y una cazadora de cuero. Es un look infalible."
+      }
+      else if (query.includes("fiesta")) {
+        response = "¡Para una fiesta! Ponte el top brillante con tus jeans oscuros. Es cómodo y resaltarás mucho."
+      }
+      else if (query.includes("trabajo") || query.includes("oficina")) {
+        response = "Para el trabajo, te sugiero la blusa blanca con el pantalón de pinzas. Un look profesional y elegante."
+      }
+      else {
+        response = "Mmm, para esa ocasión te recomiendo algo cómodo como tus básicos favoritos. ¿Tienes alguna otra duda?"
+      }
+
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: "Esa es una gran elección. Basándome en tu estilo y las prendas de tu armario, te sugiero también añadir la chaqueta marrón para darle un toque más casual pero sofisticado.",
+        content: response,
       }
+
       setMessages((prev) => [...prev, aiMessage])
+      setIsTyping(false)
     }, 1000)
   }
 
   return (
     <div className="flex h-full flex-col bg-background">
-      {/* Header FIJO arriba - fondo blanco */}
+      {/* Header */}
       <header className="shrink-0 flex items-center gap-3 border-b border-border bg-background px-4 py-4">
         <MessageSquare className="h-6 w-6 text-primary" strokeWidth={1.5} />
         <h1 className="font-serif text-2xl font-bold italic text-primary">Asesor</h1>
       </header>
 
-      {/* Messages area - fondo blanco puro */}
+      {/* Área de Mensajes */}
       <div className="flex-1 overflow-y-auto bg-background px-4 py-4">
         <div className="flex flex-col gap-4">
           {messages.map((msg) => (
@@ -79,14 +100,19 @@ export default function AdvisorPage() {
               </div>
             </div>
           ))}
+          {isTyping && (
+            <div className="text-xs text-muted-foreground animate-pulse ml-2">
+              El asesor está analizando tu armario...
+            </div>
+          )}
           <div ref={messagesEndRef} />
         </div>
       </div>
 
-      {/* Input FIJO abajo - fondo blanco */}
+      {/* Input */}
       <div className="shrink-0 bg-background px-4 pt-3 pb-4">
-        <div className="flex items-center gap-2 rounded-full border border-primary bg-background px-4 py-2.5">
-          <button aria-label="Mensaje de voz" className="shrink-0 text-primary">
+        <div className="flex items-center gap-2 rounded-full border border-primary bg-background px-4 py-2.5 shadow-sm">
+          <button className="shrink-0 text-primary hover:opacity-70 transition-opacity">
             <Mic className="h-5 w-5" strokeWidth={1.5} />
           </button>
           <input
@@ -95,13 +121,11 @@ export default function AdvisorPage() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            className="min-w-0 flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
-            aria-label="Mensaje al asesor"
+            className="min-w-0 flex-1 bg-transparent text-sm text-foreground focus:outline-none"
           />
           <button
             onClick={handleSend}
-            aria-label="Enviar mensaje"
-            className="shrink-0 text-primary"
+            className="shrink-0 text-primary hover:opacity-70 transition-opacity"
           >
             <Send className="h-5 w-5" strokeWidth={1.5} />
           </button>

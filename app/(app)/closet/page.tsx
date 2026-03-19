@@ -40,6 +40,9 @@ export default function ClosetPage() {
         <h1 className="font-serif text-2xl font-bold italic text-primary">Armario</h1>
       </header>
 
+      {/* Separator line */}
+      <div className="mx-4 border-b border-border/60" />
+
       {/* Bookmark button + Category filters */}
       <div className="flex items-center gap-3 px-4 py-3 bg-background">
         <button
