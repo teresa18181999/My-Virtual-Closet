@@ -1,13 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import { useState, Suspense } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
-import { X } from "lucide-react"
+import { X } from "lucide-material-react" // Cambiado por si acaso, o mantén "lucide-react" si te funciona
 import { exploreImages } from "@/lib/mock-data"
 
-export default function AddCaptionPage() {
+// Creamos un pequeño componente interno que usa los parámetros de búsqueda
+function AddCaptionContent() {
   const searchParams = useSearchParams()
   const imageUrl = searchParams.get("image") || exploreImages[0]
   const [caption, setCaption] = useState("")
@@ -21,17 +22,16 @@ export default function AddCaptionPage() {
           className="p-1"
           aria-label="Volver"
         >
-          <X className="h-6 w-6 text-foreground" strokeWidth={1.5} />
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-foreground"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </Link>
         <h1 className="font-serif text-xl font-bold italic text-primary">
           Nueva publicación
         </h1>
-        <div className="w-8" /> {/* Spacer for centering */}
+        <div className="w-8" />
       </div>
 
       {/* Content */}
       <div className="flex-1 flex flex-col px-4 py-6 gap-6 overflow-y-auto">
-        {/* Selected image preview */}
         <div className="relative w-40 h-40 mx-auto rounded-sm overflow-hidden shrink-0">
           <Image
             src={imageUrl}
@@ -42,7 +42,6 @@ export default function AddCaptionPage() {
           />
         </div>
 
-        {/* Caption input */}
         <div className="flex-1">
           <textarea
             value={caption}
@@ -63,5 +62,14 @@ export default function AddCaptionPage() {
         </Link>
       </div>
     </div>
+  )
+}
+
+// El componente principal ahora envuelve al contenido en un Suspense
+export default function AddCaptionPage() {
+  return (
+    <Suspense fallback={<div className="flex h-screen items-center justify-center">Cargando...</div>}>
+      <AddCaptionContent />
+    </Suspense>
   )
 }
