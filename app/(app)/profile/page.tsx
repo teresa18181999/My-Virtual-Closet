@@ -22,8 +22,11 @@ export default function ProfilePage() {
         </Link>
       </header>
 
+      {/* Separator line */}
+      <div className="mx-4 border-b border-border/60" />
+
       {/* Profile info */}
-      <div className="border-t border-border px-4 pt-6 pb-4">
+      <div className="px-4 pt-6 pb-4">
         <div className="flex items-center gap-4">
           <div className="relative h-16 w-16 overflow-hidden rounded-full ring-2 ring-primary/30">
             <Image
@@ -53,7 +56,7 @@ export default function ProfilePage() {
             <span className="text-[10px] font-medium text-accent-foreground">OOTD</span>
           </Link>
           <Link 
-            href="/profile" 
+            href="/profile/followers" 
             className="flex flex-col items-center gap-1.5 rounded-xl bg-accent px-2 py-3 transition-colors hover:bg-secondary"
           >
             <Users className="h-6 w-6 text-accent-foreground" strokeWidth={1.5} />

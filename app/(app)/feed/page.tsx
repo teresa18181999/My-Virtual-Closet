@@ -132,6 +132,9 @@ export default function FeedPage() {
         </Link>
       </header>
 
+      {/* Separator line */}
+      <div className="mx-4 border-b border-border/60" />
+
       {/* Stories - pegadas debajo del título */}
       <div className="flex gap-4 overflow-x-auto px-4 py-2 bg-background scrollbar-hide">
         {/* Current user story bubble with + button */}
@@ -164,3 +167,4 @@ export default function FeedPage() {
     </div>
   )
 }
+
