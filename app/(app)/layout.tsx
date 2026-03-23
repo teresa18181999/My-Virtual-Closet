@@ -1,6 +1,21 @@
-import { AppShell } from "@/components/app-shell"
-import { ReactNode } from "react"
+import type { Metadata } from "next";
+import "./globals.css";
 
-export default function FeedLayout({ children }: { children: ReactNode }) {
-  return <AppShell>{children}</AppShell>
+export const metadata: Metadata = {
+  title: "My Virtual Closet",
+  description: "Tu armario inteligente",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="es">
+      <body className="antialiased">
+        {children}
+      </body>
+    </html>
+  );
 }
