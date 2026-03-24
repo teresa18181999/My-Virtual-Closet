@@ -1,16 +1,15 @@
 "use client"
 
-import { useState, Suspense } from "react"
+import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import { X } from "lucide-react"
 import { exploreImages } from "@/lib/mock-data"
 
-// 1. Aquí dentro va tu diseño real
-function AddCaptionContent() {
+export default function AddCaptionPage() {
   const searchParams = useSearchParams()
-  const imageUrl = searchParams.get("image") || (exploreImages && exploreImages[0]) || ""
+  const imageUrl = searchParams.get("image") || exploreImages[0]
   const [caption, setCaption] = useState("")
 
   return (
@@ -27,23 +26,23 @@ function AddCaptionContent() {
         <h1 className="font-serif text-xl font-bold italic text-primary">
           Nueva publicación
         </h1>
-        <div className="w-8" />
+        <div className="w-8" /> {/* Spacer for centering */}
       </div>
 
-      {/* Contenido de la foto */}
+      {/* Content */}
       <div className="flex-1 flex flex-col px-4 py-6 gap-6 overflow-y-auto">
+        {/* Selected image preview */}
         <div className="relative w-40 h-40 mx-auto rounded-sm overflow-hidden shrink-0">
-          {imageUrl && (
-            <Image
-              src={imageUrl}
-              alt="Imagen seleccionada"
-              fill
-              className="object-cover"
-              sizes="160px"
-            />
-          )}
+          <Image
+            src={imageUrl}
+            alt="Imagen seleccionada"
+            fill
+            className="object-cover"
+            sizes="160px"
+          />
         </div>
 
+        {/* Caption input */}
         <div className="flex-1">
           <textarea
             value={caption}
@@ -54,7 +53,7 @@ function AddCaptionContent() {
         </div>
       </div>
 
-      {/* Botón Publicar */}
+      {/* Publish button */}
       <div className="px-4 py-6 shrink-0">
         <Link
           href="/feed"
@@ -66,13 +65,3 @@ function AddCaptionContent() {
     </div>
   )
 }
-
-// 2. Este es el "escudo" (Suspense) que arregla el error de Vercel
-export default function AddCaptionPage() {
-  return (
-    <Suspense fallback={<div className="flex h-screen items-center justify-center">Cargando...</div>}>
-      <AddCaptionContent />
-    </Suspense>
-  )
-}
-
